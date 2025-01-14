@@ -31,7 +31,7 @@ litellm --config config.yaml
 docker compose -f compose.langfuse.yml -p agentrouter up -d
 ```
 
-2. Access the Langfuse dashboard at http://localhost:43000
+2. Access the Langfuse dashboard at http://localhost:53000
 
 Use the following credentials:
 * Email: agentrouter-local@agentrouter.local

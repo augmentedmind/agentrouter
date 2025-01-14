@@ -6,13 +6,13 @@ services:
       langfuse-postgres:
         condition: service_healthy
     ports:
-      - "43000:3000"
+      - "53000:3000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@langfuse-postgres:5432/postgres
       - NEXTAUTH_SECRET=mysecret
       - SALT=mysalt
       - ENCRYPTION_KEY=0000000000000000000000000000000000000000000000000000000000000000 # generate via `openssl rand -hex 32`
-      - NEXTAUTH_URL=http://localhost:43000
+      - NEXTAUTH_URL=http://localhost:53000
       - TELEMETRY_ENABLED=false
       - LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES=false
       - LANGFUSE_INIT_ORG_ID=agentrouter-local
@@ -39,7 +39,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
     ports:
-      - 45432:5432
+      - 55432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
 
