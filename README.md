@@ -19,11 +19,12 @@ litellm --config config.yaml
 
 4. Configure Cline/OpenHands to use the Agent Router:
 
-* Base URL: http://localhost:4000
-* API Key: foo
+* API Provider: OpenAI Compatible
+* Custom Base URL: http://localhost:4000
+* API Key: any non-empty string
 * Model ID: default
 
-## Observability (Optional)
+## Using Langfuse for observability (Optional)
 
 1. Start Langfuse using the provided docker-compose file:
 
