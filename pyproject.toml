@@ -4,6 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Agent Router"]
 readme = "README.md"
+packages = [
+    {include = "agentrouter"},
+]
 
 [tool.poetry.dependencies]
 python = "^3.12"
