@@ -4,5 +4,5 @@ model_list:
       model: "*"
 
 litellm_settings:
-  callbacks: ["custom_callbacks.proxy_handler_instance", "langfuse"]
+  callbacks: ["debug_handler.debug_handler_instance", "model_handler.model_handler_instance", "langfuse"]
   langfuse_default_tags: ["cache_hit", "cache_key", "proxy_base_url", "user_api_key_alias", "user_api_key_user_id", "user_api_key_user_email", "user_api_key_team_alias", "semantic-similarity", "proxy_base_url"]

@@ -3,7 +3,6 @@ from datetime import datetime
 from pathlib import Path
 
 from litellm.integrations.custom_logger import CustomLogger
-import litellm
 from litellm.proxy.proxy_server import UserAPIKeyAuth, DualCache
 from typing import Optional, Literal
 
@@ -16,9 +15,7 @@ def save_debug_data(data: dict, prefix: str):
     filepath.parent.mkdir(exist_ok=True)
     filepath.write_text(json.dumps(data, indent=2, default=str))
 
-# This file includes the custom callbacks for LiteLLM Proxy
-# Once defined, these can be passed in proxy_config.yaml
-class MyCustomHandler(CustomLogger): # https://docs.litellm.ai/docs/observability/custom_callback#callback-class
+class DebugHandler(CustomLogger):
     def __init__(self):
         pass
 
@@ -97,7 +94,6 @@ class MyCustomHandler(CustomLogger): # https://docs.litellm.ai/docs/observabilit
         save_debug_data(debug_data, "async_failure_event")
 
     #### CALL HOOKS - proxy only #### 
-
     async def async_pre_call_hook(self, user_api_key_dict: UserAPIKeyAuth, cache: DualCache, data: dict, call_type: Literal[
             "completion",
             "text_completion",
@@ -106,28 +102,14 @@ class MyCustomHandler(CustomLogger): # https://docs.litellm.ai/docs/observabilit
             "moderation",
             "audio_transcription",
         ]):
-        print(f"Pre call hook")
-        print(f"Model: {data['model']}")
-
         # Save request data
         debug_data = {
-            "type": "request",
+            "type": "async_pre_call_hook",
             "call_type": call_type,
             "data": data,
             "user_api_key_dict": user_api_key_dict.dict() if user_api_key_dict else None
         }
-        save_debug_data(debug_data, "request")
-
-        if "metadata" in data:
-            print(f"Metadata: {json.dumps(data['metadata'], indent=2)}")
-        if "litellm_metadata" in data:
-            print(f"LiteLLM Metadata: {json.dumps(data['litellm_metadata'], indent=2)}")
-        if "extra_headers" in data:
-            print(f"extra_headers: {json.dumps(data['extra_headers'], indent=2)}")
-        if "proxy_server_request" in data:
-            print(f"proxy_server_request: {json.dumps(data['proxy_server_request'], indent=2)}")
-        print(f"Keys: {data.keys()}")
-        data["model"] = "claude-3-5-sonnet-20241022"
+        save_debug_data(debug_data, "async_pre_call_hook")
         return data
 
     async def async_post_call_failure_hook(
@@ -138,13 +120,13 @@ class MyCustomHandler(CustomLogger): # https://docs.litellm.ai/docs/observabilit
     ):
         # Save failure data
         debug_data = {
-            "type": "response_failure",
+            "type": "async_post_call_failure_hook",
             "request_data": request_data,
             "error": str(original_exception),
             "error_type": type(original_exception).__name__,
             "user_api_key_dict": user_api_key_dict.dict() if user_api_key_dict else None
         }
-        save_debug_data(debug_data, "response_failure")
+        save_debug_data(debug_data, "async_post_call_failure_hook")
 
     async def async_post_call_success_hook(
         self,
@@ -154,20 +136,12 @@ class MyCustomHandler(CustomLogger): # https://docs.litellm.ai/docs/observabilit
     ):
         # Save response data
         debug_data = {
-            "type": "response_success",
+            "type": "async_post_call_success_hook",
             "data": data,
             "response": response.dict() if hasattr(response, 'dict') else str(response),
             "user_api_key_dict": user_api_key_dict.dict() if user_api_key_dict else None
         }
-        save_debug_data(debug_data, "response_success")
-
-    async def async_moderation_hook( # call made in parallel to llm api call
-        self,
-        data: dict,
-        user_api_key_dict: UserAPIKeyAuth,
-        call_type: Literal["completion", "embeddings", "image_generation", "moderation", "audio_transcription"],
-    ):
-        pass
+        save_debug_data(debug_data, "async_post_call_success_hook")
 
     async def async_post_call_streaming_hook(
         self,
@@ -176,10 +150,10 @@ class MyCustomHandler(CustomLogger): # https://docs.litellm.ai/docs/observabilit
     ):
         # Save streaming response data
         debug_data = {
-            "type": "response_streaming",
+            "type": "async_post_call_streaming_hook",
             "response": response,
             "user_api_key_dict": user_api_key_dict.dict() if user_api_key_dict else None
         }
-        save_debug_data(debug_data, "response_streaming")
+        save_debug_data(debug_data, "async_post_call_streaming_hook")
 
-proxy_handler_instance = MyCustomHandler()
+debug_handler_instance = DebugHandler()
