@@ -10,7 +10,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.12"
-litellm = {extras = ["proxy"], version = "^1.58.1"}
+litellm = {version = "^1.59.8", extras = ["proxy"]}
 langfuse = "^2.57.7"
 
 
