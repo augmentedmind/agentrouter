@@ -16,8 +16,8 @@ class ModelHandler(CustomLogger):
             "audio_transcription",
         ]):
         print(f"Pre call hook")
-        print(f"Model: {data['model']}")
-
+        if "model" in data:
+            print(f"Model: {data['model']}")
         if "metadata" in data:
             print(f"Metadata: {json.dumps(data['metadata'], indent=2)}")
         if "litellm_metadata" in data:
