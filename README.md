@@ -13,13 +13,19 @@ cp .env.example .env
 
 2. Add your LLM provider API keys in .env
 
-3. Start Agent Router:
+3. Install dependencies:
 
 ```shell
-litellm --config config.yaml
+poetry install
+```  
+  
+4. Start Agent Router:
+
+```shell
+poetry run poe start
 ```
 
-4. Configure Cline/OpenHands to use the Agent Router:
+5. Configure Cline/OpenHands to use the Agent Router:
 
 For Anthropic models:
 * API Provider: Anthropic
