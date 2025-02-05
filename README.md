@@ -1,7 +1,7 @@
 Agent Router
 ============
 
-Quickly set up litellm proxy and langfuse locally for use with Cline and OpenHands.
+Quickly set up litellm proxy and langfuse locally for use with Cline/OpenHands/BrowserUse etc.
 
 ## Get Started
 
@@ -25,7 +25,7 @@ poetry install
 poetry run poe start
 ```
 
-5. Configure Cline/OpenHands to use the Agent Router:
+5. Configure Cline/OpenHands/BrowserUse to use the router:
 
 For Anthropic models:
 * API Provider: Anthropic
