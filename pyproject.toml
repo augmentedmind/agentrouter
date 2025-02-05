@@ -2,7 +2,8 @@
 name = "agentrouter"
 version = "0.1.0"
 description = ""
-authors = ["Agent Router"]
+authors = ["motin@motin.eu"]
+license = "MIT"
 readme = "README.md"
 packages = [
     {include = "agentrouter"},
