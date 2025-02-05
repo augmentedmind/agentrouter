@@ -28,8 +28,9 @@ class ModelHandler(CustomLogger):
             print(f"proxy_server_request: {json.dumps(data['proxy_server_request'], indent=2)}")
         print(f"Keys: {data.keys()}")
         
-        # Modify the model
-        data["model"] = "claude-3-5-sonnet-20241022"
+        # Example: modify the model
+        # data["model"] = "claude-3-5-sonnet-20241022"
+
         return data
 
 model_handler_instance = ModelHandler()
